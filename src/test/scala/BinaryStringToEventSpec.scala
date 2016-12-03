@@ -5,7 +5,7 @@ import org.scalatest.{FlatSpec, Matchers}
 // 3 - 10  | Team 2 points total | The total number of points team 2 has scored in the match.
 // 11 - 18 | Team 1 points total | The total number of points team 1 has scored in the match.
 // 19 - 30 | Elapsed match time  | Number of seconds since the start of the match. This represents the match clock, rather than “wall clock” time.
-class BinaryStringToEventSpec extends FlatSpec with Matchers with BinaryStringUtils {
+class BinaryStringToEventSpec extends FlatSpec with Matchers with TestDataUtils {
   "BinaryStringToEventSpec" should "parse 32 0s into an event where no point was scored at time 0 (by team 1 because default)" in {
     val input = "0" * 32
 
@@ -42,26 +42,14 @@ class BinaryStringToEventSpec extends FlatSpec with Matchers with BinaryStringUt
   }
 
   it should "parse the first string given in spec into the correct event" in {
-    val event = BinaryStringToEvent.binaryToEvent(specExampleTeam1Scores)
+    val event = BinaryStringToEvent.binaryToEvent(specExampleTeam1ScoresBinary)
 
-    event should be(Event(
-      pointsScored = 2,
-      scoringTeam = 1,
-      team2Total = 0,
-      team1Total = 2,
-      elapsedTimeInSeconds = 15
-    ))
+    event should be(specExampleTeam1ScoresEvent)
   }
 
   it should "parse the second string given in spec into the correct event" in {
-    val event = BinaryStringToEvent.binaryToEvent(specExampleTeam2ScoresBack)
+    val event = BinaryStringToEvent.binaryToEvent(specExampleTeam2ScoresBackBinary)
 
-    event should be(Event(
-      pointsScored = 3,
-      scoringTeam = 2,
-      team2Total = 3,
-      team1Total = 2,
-      elapsedTimeInSeconds = 30
-    ))
+    event should be(specExampleTeam2ScoresBackEvent)
   }
 }
