@@ -5,13 +5,20 @@ case class Event(
                   team1Total: Int,
                   elapsedTimeInSeconds: Int
                 ) {
-  private val timeInMinutes = {
-    ((elapsedTimeInSeconds % 3600) / 60).toString + ":" + (elapsedTimeInSeconds % 60).toString
-  }
-
   override def toString: String =
     s"At $timeInMinutes of the game, team $scoringTeam scores $pointsScored points!" +
       s" Total now $team1Total-$team2Total"
+
+  private val timeInMinutes = {
+    s"$minutesFromSeconds:$secondsRounded"
+  }
+
+  private def secondsRounded = toDoubleDigitString(elapsedTimeInSeconds % 60)
+  private def minutesFromSeconds = toDoubleDigitString((elapsedTimeInSeconds % 3600) / 60)
+  private def toDoubleDigitString(value: Int) = {
+    val string = value.toString
+    if (string.length == 2) string else "0" + string
+  }
 }
 
 object GameJustStartedEvent extends Event(0, 0, 0, 0, 0) {
