@@ -1,3 +1,5 @@
+package inputParsing
+
 abstract class StringParser {
   protected val lowerBoundIndex: Int
   protected val upperBoundIndex: Int

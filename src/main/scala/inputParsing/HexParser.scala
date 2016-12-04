@@ -1,3 +1,5 @@
+package inputParsing
+
 object HexParser {
 
   def to32bitBinaryString(hexInput: String): String = {

@@ -1,3 +1,7 @@
+package utils
+
+import gameState.Event
+
 trait TestDataUtils {
   val allZeros: List[String] = List.fill(32)("0")
   def reversedZerosStringWithOneAt(i: Int): String = reverseAndToString(allZeros.patch(i, List("1"), 1))

@@ -1,6 +1,11 @@
+package inputParsing
+
+import gameState.Event
 import org.scalatest.prop.TableDrivenPropertyChecks._
 import org.scalatest.prop.TableFor2
+import org.scalatest.prop.Tables.Table
 import org.scalatest.{FlatSpec, Matchers}
+import utils.TestDataUtils
 
 class InputParserSpec extends FlatSpec with Matchers with TestDataUtils {
 

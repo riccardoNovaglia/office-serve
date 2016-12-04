@@ -1,4 +1,7 @@
+package inputParsing
+
 import org.scalatest.{FlatSpec, Matchers}
+import utils.TestDataUtils
 
 class HexParserSpec extends FlatSpec with Matchers with TestDataUtils {
 

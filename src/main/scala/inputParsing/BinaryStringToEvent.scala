@@ -1,3 +1,7 @@
+package inputParsing
+
+import gameState.Event
+
 object BinaryStringToEvent {
   def binaryToEvent(input: String): Event = {
     Event(

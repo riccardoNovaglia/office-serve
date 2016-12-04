@@ -1,3 +1,5 @@
+package gameState
+
 case class Event(
                   pointsScored: Int,
                   scoringTeam: Int,

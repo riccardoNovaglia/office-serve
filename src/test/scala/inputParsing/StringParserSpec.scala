@@ -1,4 +1,7 @@
+package inputParsing
+
 import org.scalatest.{FlatSpec, Matchers}
+import utils.TestDataUtils
 
 // 0 -1    | Points scored       | Number of points scored (either 1, 2 or 3)
 // 2       | Who scored          | 0 indicates team 1 scored, 1 indicates team 2

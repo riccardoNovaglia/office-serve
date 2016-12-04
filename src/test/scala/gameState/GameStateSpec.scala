@@ -1,4 +1,7 @@
+package gameState
+
 import org.scalatest.{FlatSpec, Matchers, OneInstancePerTest}
+import utils.TestDataUtils
 
 class GameStateSpec extends FlatSpec with Matchers with OneInstancePerTest with TestDataUtils {
 

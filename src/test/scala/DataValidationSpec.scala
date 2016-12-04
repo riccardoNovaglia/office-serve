@@ -1,3 +1,4 @@
+import gameState.Event
 import org.scalatest.{FlatSpec, Matchers, OneInstancePerTest}
 
 class DataValidationSpec extends FlatSpec with Matchers with OneInstancePerTest {
