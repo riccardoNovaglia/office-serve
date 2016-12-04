@@ -10,7 +10,9 @@ case class GameTracker() {
     try {
       state.updateStateFrom(InputParser.eventFrom(input))
     } catch {
-      case e: Throwable => println(s"Failed to parse event $input. Failed with exception $e")
+      case e: Throwable => throw new GameStateUpdateFailedException("Failed to update game state", e)
     }
   }
 }
+
+class GameStateUpdateFailedException(message: String, cause: Throwable) extends Exception(message, cause)

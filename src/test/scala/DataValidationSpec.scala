@@ -96,9 +96,12 @@ class DataValidationSpec extends FlatSpec with Matchers with OneInstancePerTest 
   }
 
   private def stateShouldNotBeUpdateWith(input: String) = {
-    val (previousState, currentState) = getPreviousAndCurrentStateAfter(input)
-    previousState should be(currentState)
-    println(currentState)
+    val previousState = gameTracker.currentState
+    val exception = intercept[GameStateUpdateFailedException] {
+      gameTracker.updateStateFrom(input)
+    }
+    previousState should be (gameTracker.currentState)
+    println(s"Caught exception [$exception] with cause [${exception.getCause.getClass.getName}]")
   }
 
   private def getPreviousAndCurrentStateAfter(input: String): (Event, Event) = {

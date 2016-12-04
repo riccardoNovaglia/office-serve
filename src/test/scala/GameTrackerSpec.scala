@@ -48,19 +48,27 @@ class GameTrackerSpec extends FlatSpec with Matchers with OneInstancePerTest wit
   }
 
   it should "not update the state of the match if the input is incorrect and causes an exception" in {
-    gameTracker.updateStateFrom("abcde")
+    val exception = intercept[GameStateUpdateFailedException] {
+      gameTracker.updateStateFrom("abcde")
+    }
 
     val state = gameTracker.currentState
 
     state should be(GameJustStartedEvent)
+    exception.getMessage should be("Failed to update game state")
+    exception.getCause should be (a[InputNotHexException])
   }
 
   it should "not update the state of the match if the input is a blank string" in {
-    gameTracker.updateStateFrom("")
+    val exception = intercept[GameStateUpdateFailedException] {
+      gameTracker.updateStateFrom("")
+    }
 
     val state = gameTracker.currentState
 
     state should be(GameJustStartedEvent)
+    exception.getMessage should be("Failed to update game state")
+    exception.getCause should be(a[InputNotHexException])
   }
 
 }
