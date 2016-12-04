@@ -6,7 +6,6 @@ case class GameState() {
   def getAllEvents: List[Event] = statesHistory
 
   def updateStateFrom(event: Event): Unit = {
-    println(s"Attempting to update game state with [$event]")
     ensureEventConsistency(event)
     statesHistory = statesHistory :+ event
   }

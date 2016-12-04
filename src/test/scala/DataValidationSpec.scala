@@ -1,9 +1,9 @@
-import org.scalatest.FlatSpec
+import org.scalatest.{FlatSpec, Matchers, OneInstancePerTest}
 
-class DataValidationSpec extends FlatSpec {
+class DataValidationSpec extends FlatSpec with Matchers with OneInstancePerTest {
 
+  val gameTracker = GameTracker()
   "The data tracker" should "parse all events provided in the first file with spec without exceptions" in {
-    val gameTracker = GameTracker()
     println(gameTracker.currentState)
 
     val inputs = List(
@@ -38,11 +38,74 @@ class DataValidationSpec extends FlatSpec {
     )
 
     inputs.foreach(input => {
-      gameTracker.updateStateFrom(input)
-      println(gameTracker.currentState)
+      stateShouldBeUpdateWith(input)
     })
-
   }
 
+  it should "filter out bad events from a stream of inconsistent data" in {
+    val expectedFailures = List(3, 8, 12, 14, 17, 22, 26)
+
+    val inputs = List(
+      "0x781002",
+      "0xe01016",
+      "0x1081014", // 0 points scored
+      "0x1e0102f",
+      "0x258202a",
+      "0x308203e",
+      "0x388204e",
+      "0x388204e", // duplicate from above - points do not add up
+      "0x3d0384b",
+      "0x478385e",
+      "0x618406e",
+      "0x5404059", // team1 scores 1 point but total doesn't increase, team 2 decreases, time is wrong
+      "0x6b8506a",
+      "0x750706c", // 0 points
+      "0x7d8507e",
+      "0x938608e",
+      "0x8b8607a", // wrong time, totals don't match up
+      "0xa10609e",
+      "0xb8870a2",
+      "0xc4870b6",
+      "0xcc070c6",
+      "0x2ee74753", // time and totals
+      "0xd5080c2",
+      "0xdf080d6",
+      "0xe4098d3",
+      "0xec098f6", // totals don't match up
+      "0xfc8a8e2",
+      "0x10a8a8ed",
+      "0x1180b8ea",
+      "0x1218c8ea"
+    )
+
+    inputs.indices.foreach(i => {
+      val input = inputs(i)
+
+      if (expectedFailures.contains(i + 1)) {
+        stateShouldNotBeUpdateWith(input)
+      } else {
+        stateShouldBeUpdateWith(input)
+      }
+    })
+  }
+
+  private def stateShouldBeUpdateWith(input: String) = {
+    val (previousState, currentState) = getPreviousAndCurrentStateAfter(input)
+    previousState should not be currentState
+    println(currentState)
+  }
+
+  private def stateShouldNotBeUpdateWith(input: String) = {
+    val (previousState, currentState) = getPreviousAndCurrentStateAfter(input)
+    previousState should be(currentState)
+    println(currentState)
+  }
+
+  private def getPreviousAndCurrentStateAfter(input: String): (Event, Event) = {
+    val previousState = gameTracker.currentState
+    gameTracker.updateStateFrom(input)
+
+    (previousState, gameTracker.currentState)
+  }
 
 }
