@@ -1,8 +1,9 @@
 package inputParsing
 
+import scala.collection.immutable.Range.Inclusive
+
 abstract class StringParser {
-  protected val lowerBoundIndex: Int
-  protected val upperBoundIndex: Int
+  protected val range: Range.Inclusive
 
   def getValueFrom(binaryString: String): Int = {
     val array = toList(binaryString)
@@ -11,7 +12,7 @@ abstract class StringParser {
   }
 
   private def getSlice(array: List[Char]) = {
-    array.slice(32 - upperBoundIndex, 32 - lowerBoundIndex)
+    array.slice(32 - range.end, 32 - range.start)
   }
 
   private def toList(binaryString: String) = {
@@ -20,26 +21,21 @@ abstract class StringParser {
 }
 
 object PointsScored extends StringParser {
-  override protected val lowerBoundIndex: Int = 0
-  override protected val upperBoundIndex: Int = 2
+  override protected val range: Inclusive = 0 to 2
 }
 
 object ScoringTeam extends StringParser {
-  override protected val lowerBoundIndex: Int = 2
-  override protected val upperBoundIndex: Int = 3
+  override protected val range: Inclusive = 2 to 3
 }
 
 object Team2Total extends StringParser {
-  override protected val lowerBoundIndex: Int = 3
-  override protected val upperBoundIndex: Int = 11
+  override protected val range: Inclusive = 3 to 11
 }
 
 object Team1Total extends StringParser {
-  override protected val lowerBoundIndex: Int = 11
-  override protected val upperBoundIndex: Int = 19
+  override protected val range: Inclusive = 11 to 19
 }
 
 object ElapsedTimeInSeconds extends StringParser {
-  override protected val lowerBoundIndex: Int = 19
-  override protected val upperBoundIndex: Int = 31
+  override protected val range: Inclusive = 19 to 31
 }
