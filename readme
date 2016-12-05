@@ -1,0 +1,9 @@
+The entry point for the application is the GameTracker.scala class.
+
+It uses the InputParser to transform hex input into Events, and the GameState to keep track of the state of the game 
+and consistency.
+
+I've added a test class called DataValidationSpec which parses the two provided sample files and proves 
+that the first one is parsed correctly, and the second one is parsed throwing exception for inconsistent inputs.
+
+It was developed in IntelliJ using scala 2.11.8 and sbt 0.13.13
